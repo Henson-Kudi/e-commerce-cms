@@ -10,16 +10,19 @@ import { validateCreateTermsAndConditions } from '../../../utils/joi/termsAndCon
 import ITermsOfServicePostRepository from '../../repositories/termsOfService';
 
 export default class CreateTermsOfServiceUseCase
-  implements IUseCase<[ICreateTermsAndConditionsDTO], ReturnValue<TermsOfService>> {
+  implements
+    IUseCase<[ICreateTermsAndConditionsDTO], ReturnValue<TermsOfService>>
+{
   constructor(
     private readonly repo: ITermsOfServicePostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(...[data]: [ICreateTermsAndConditionsDTO]): Promise<ReturnValue<TermsOfService>> {
-
+  async execute(
+    ...[data]: [ICreateTermsAndConditionsDTO]
+  ): Promise<ReturnValue<TermsOfService>> {
     const { messageBroker } = this.providers;
 
     // Validate input
@@ -29,8 +32,8 @@ export default class CreateTermsOfServiceUseCase
     const PrivacyPolicy = await this.repo.createTermsOfService({
       data: {
         ...data,
-        slug: slugify(data.title)
-      }
+        slug: slugify(data.title),
+      },
     });
 
     // Publish event

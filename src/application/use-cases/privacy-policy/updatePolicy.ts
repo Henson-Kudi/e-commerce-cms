@@ -12,21 +12,18 @@ import { validateUpdatePrivacyPolicy } from '../../../utils/joi/privacyPolicy';
 
 export default class UpddatePolicy
   implements
-  IUseCase<
-    [string, IUpdatePolicyDTO],
-    ReturnValue<PrivacyPolicy | null>
-  > {
+    IUseCase<[string, IUpdatePolicyDTO], ReturnValue<PrivacyPolicy | null>>
+{
   constructor(
     private readonly repo: IPrivacyPolicyRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id, data]: [string, IUpdatePolicyDTO]
   ): Promise<ReturnValue<PrivacyPolicy | null>> {
-
     // Validate input
     await validateUpdatePrivacyPolicy(data);
 
@@ -50,7 +47,10 @@ export default class UpddatePolicy
         false,
         'Policy not found! Probably deleted.',
         null,
-        new AppError('Policy not found! Probably deleted.', ResponseCodes.NotFound)
+        new AppError(
+          'Policy not found! Probably deleted.',
+          ResponseCodes.NotFound
+        )
       );
     }
 

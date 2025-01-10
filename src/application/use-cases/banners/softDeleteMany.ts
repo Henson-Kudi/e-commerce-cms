@@ -3,17 +3,18 @@ import IUseCase from '..';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { bannersSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { bannersDeleted } from '../../../utils/kafkaTopics.json';
 import IBannerRepository from '../../repositories/bannersRepository';
 
 export default class SoftDeleteBanners
-  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: IBannerRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[ids]: [string[]]
@@ -30,7 +31,7 @@ export default class SoftDeleteBanners
 
     try {
       messageBoker.publish({
-        topic: bannersSoftDeleted,
+        topic: bannersDeleted,
         message: JSON.stringify({
           ...deletedBanners,
           query: { id: ids },

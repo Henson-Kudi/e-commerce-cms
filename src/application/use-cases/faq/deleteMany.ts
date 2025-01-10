@@ -7,13 +7,14 @@ import { faqsDeleted } from '../../../utils/kafkaTopics.json';
 import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class DeleteFaqs
-  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: IFaqPostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[ids]: [string[]]

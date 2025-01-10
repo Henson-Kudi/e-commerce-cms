@@ -3,6 +3,7 @@ import { PaginationOptions } from '..';
 export type ICreateBlogDTO = {
   title: string;
   content: string;
+  delta?: string; //JSON string for react quil rendering
   createdBy: string;
   headerImage?: string;
   metaTitle?: string;
@@ -13,6 +14,7 @@ export type ICreateBlogDTO = {
 export type IUpdateBlogDTO = {
   title?: string;
   content?: string;
+  delta?: string; //JSON string for react quil rendering
   headerImage?: string;
   metaTitle?: string;
   metaDescription?: string;

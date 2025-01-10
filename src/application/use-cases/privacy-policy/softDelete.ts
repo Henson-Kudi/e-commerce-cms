@@ -3,22 +3,20 @@ import IUseCase from '..';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { policySoftDeleted } from '../../../utils/kafkaTopics.json';
+import { policyDeleted } from '../../../utils/kafkaTopics.json';
 import IPrivacyPolicyRepository from '../../repositories/privacyPolicy';
 
 export default class SoftDeletePolicy
-  implements IUseCase<[string], ReturnValue<PrivacyPolicy | null>> {
+  implements IUseCase<[string], ReturnValue<PrivacyPolicy | null>>
+{
   constructor(
     private readonly repository: IPrivacyPolicyRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(
-    ...[id]: [string]
-  ): Promise<ReturnValue<PrivacyPolicy | null>> {
-
+  async execute(...[id]: [string]): Promise<ReturnValue<PrivacyPolicy | null>> {
     const { messageBoker } = this.providers;
 
     const deletedPolicy = await this.repository.updatePolicy({
@@ -31,7 +29,7 @@ export default class SoftDeletePolicy
 
     try {
       messageBoker.publish({
-        topic: policySoftDeleted,
+        topic: policyDeleted,
         message: JSON.stringify(deletedPolicy),
       });
     } catch (err) {

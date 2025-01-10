@@ -8,16 +8,16 @@ import IBlogPostRepository from '../../repositories/blogsRepository';
 
 export default class FindBlogs
   implements
-  IUseCase<
-    [IFindBlogDTO, IFindBlogOptions],
-    ReturnValueWithPagination<BlogPost[]>
-  > {
-  constructor(private readonly repository: IBlogPostRepository) { }
+    IUseCase<
+      [IFindBlogDTO, IFindBlogOptions],
+      ReturnValueWithPagination<BlogPost[]>
+    >
+{
+  constructor(private readonly repository: IBlogPostRepository) {}
 
   async execute(
     ...[query, options]: [IFindBlogDTO, IFindBlogOptions]
   ): Promise<ReturnValueWithPagination<BlogPost[]>> {
-
     const Query = setupFindManyBlogsQuery(query);
     const pagination = setupPagination(options);
 

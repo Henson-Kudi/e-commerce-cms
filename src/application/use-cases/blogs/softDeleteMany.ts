@@ -6,7 +6,7 @@ import { setupFindManyBlogsQuery } from '../helpers/blogs';
 import IBlogPostRepository from '../../repositories/blogsRepository';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { blogPostsSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { blogPostsDeleted } from '../../../utils/kafkaTopics.json';
 
 export default class SoftDeleteBlogs
   implements IUseCase<[IFindBlogDTO], ReturnValue<Prisma.BatchPayload>>
@@ -35,7 +35,7 @@ export default class SoftDeleteBlogs
 
     try {
       messageBoker.publish({
-        topic: blogPostsSoftDeleted,
+        topic: blogPostsDeleted,
         message: JSON.stringify({
           ...deletedBlogs,
           query,

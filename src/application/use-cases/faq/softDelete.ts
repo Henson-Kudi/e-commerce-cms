@@ -3,7 +3,7 @@ import IUseCase from '..';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { faqSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { faqDeleted } from '../../../utils/kafkaTopics.json';
 import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class SoftDeleteFaq
@@ -15,9 +15,7 @@ export default class SoftDeleteFaq
     }
   ) { }
 
-  async execute(
-    ...[id]: [string]
-  ): Promise<ReturnValue<Faq | null>> {
+  async execute(...[id]: [string]): Promise<ReturnValue<Faq | null>> {
 
     const { messageBoker } = this.providers;
 
@@ -31,7 +29,7 @@ export default class SoftDeleteFaq
 
     try {
       messageBoker.publish({
-        topic: faqSoftDeleted,
+        topic: faqDeleted,
         message: JSON.stringify(deletedFaq),
       });
     } catch (err) {

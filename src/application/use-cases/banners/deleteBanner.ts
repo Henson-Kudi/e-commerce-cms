@@ -7,19 +7,17 @@ import IMessageBroker from '../../providers/messageBroker';
 import { bannerDeleted } from '../../../utils/kafkaTopics.json';
 
 export default class DeleteBanner
-  implements IUseCase<[string], ReturnValue<Banner | null>> {
+  implements IUseCase<[string], ReturnValue<Banner | null>>
+{
   constructor(
     private readonly repository: IBannerPostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(
-    ...[id]: [string]
-  ): Promise<ReturnValue<Banner | null>> {
+  async execute(...[id]: [string]): Promise<ReturnValue<Banner | null>> {
     const { messageBoker } = this.providers;
-
 
     const deletedBanner = await this.repository.deleteBanner({
       where: { id },

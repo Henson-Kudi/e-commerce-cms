@@ -12,21 +12,21 @@ import { validateUpdateTermsAndConditions } from '../../../utils/joi/termsAndCon
 
 export default class UpddateTermsOfService
   implements
-  IUseCase<
-    [string, IUpdateTermsAndConditionsDTO],
-    ReturnValue<TermsOfService | null>
-  > {
+    IUseCase<
+      [string, IUpdateTermsAndConditionsDTO],
+      ReturnValue<TermsOfService | null>
+    >
+{
   constructor(
     private readonly repo: ITermsOfServicePostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id, data]: [string, IUpdateTermsAndConditionsDTO]
   ): Promise<ReturnValue<TermsOfService | null>> {
-
     // Validate input
     await validateUpdateTermsAndConditions(data);
 
@@ -50,7 +50,10 @@ export default class UpddateTermsOfService
         false,
         'Condition not found! Probably deleted.',
         null,
-        new AppError('Condition not found! Probably deleted.', ResponseCodes.NotFound)
+        new AppError(
+          'Condition not found! Probably deleted.',
+          ResponseCodes.NotFound
+        )
       );
     }
 
@@ -70,6 +73,10 @@ export default class UpddateTermsOfService
       logger.error((err as Error).message, err);
     }
 
-    return new ReturnValue(true, 'Terms of service updated successfully', updated);
+    return new ReturnValue(
+      true,
+      'Terms of service updated successfully',
+      updated
+    );
   }
 }

@@ -7,19 +7,17 @@ import { faqDeleted } from '../../../utils/kafkaTopics.json';
 import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class DeleteFaq
-  implements IUseCase<[string], ReturnValue<Faq | null>> {
+  implements IUseCase<[string], ReturnValue<Faq | null>>
+{
   constructor(
     private readonly repository: IFaqPostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(
-    ...[id]: [string]
-  ): Promise<ReturnValue<Faq | null>> {
+  async execute(...[id]: [string]): Promise<ReturnValue<Faq | null>> {
     const { messageBoker } = this.providers;
-
 
     const deletedFaq = await this.repository.deleteFaq({
       where: { id },

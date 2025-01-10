@@ -7,13 +7,14 @@ import { policiesDeleted } from '../../../utils/kafkaTopics.json';
 import IPrivacyPolicyRepository from '../../repositories/privacyPolicy';
 
 export default class DeletePolicies
-  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: IPrivacyPolicyRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[ids]: [string[]]
@@ -21,7 +22,7 @@ export default class DeletePolicies
     const { messageBoker } = this.providers;
 
     const deletedFaqs = await this.repository.deletePolicies({
-      where: { id: { in: ids } }
+      where: { id: { in: ids } },
     });
 
     try {

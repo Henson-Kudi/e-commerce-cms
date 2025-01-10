@@ -11,22 +11,18 @@ import IMessageBroker from '../../providers/messageBroker';
 import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class UpddateFaq
-  implements
-  IUseCase<
-    [string, IUpdateFaqDTO],
-    ReturnValue<Faq | null>
-  > {
+  implements IUseCase<[string, IUpdateFaqDTO], ReturnValue<Faq | null>>
+{
   constructor(
     private readonly repo: IFaqPostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id, data]: [string, IUpdateFaqDTO]
   ): Promise<ReturnValue<Faq | null>> {
-
     // Validate input
     await validateUpdateFaq(data);
 

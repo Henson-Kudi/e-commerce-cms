@@ -2,6 +2,7 @@ import { PaginationOptions } from '.';
 
 export type ICreateBannerDTO = {
   imageUrl: string;
+  fileType: "VIDEO" | 'IMAGE';
   webLink: string;
   appLink?: string;
   query?: Record<string, string | string[]>;
@@ -10,10 +11,13 @@ export type ICreateBannerDTO = {
 
 export type IUpdateBannerDTO = {
   imageUrl?: string;
+  fileType?: "VIDEO" | 'IMAGE';
   webLink?: string;
   appLink?: string;
   query?: Record<string, string | string[]>;
   lastModifiedBy: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
 };
 
 export type IFindBannerDTO = {

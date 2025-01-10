@@ -7,19 +7,17 @@ import { policyDeleted } from '../../../utils/kafkaTopics.json';
 import IPrivacyPolicyRepository from '../../repositories/privacyPolicy';
 
 export default class DeletePolicy
-  implements IUseCase<[string], ReturnValue<PrivacyPolicy | null>> {
+  implements IUseCase<[string], ReturnValue<PrivacyPolicy | null>>
+{
   constructor(
     private readonly repository: IPrivacyPolicyRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(
-    ...[id]: [string]
-  ): Promise<ReturnValue<PrivacyPolicy | null>> {
+  async execute(...[id]: [string]): Promise<ReturnValue<PrivacyPolicy | null>> {
     const { messageBoker } = this.providers;
-
 
     const deletedPolicy = await this.repository.deletePolicy({
       where: { id },

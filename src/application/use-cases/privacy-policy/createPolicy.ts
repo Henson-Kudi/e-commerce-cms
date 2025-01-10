@@ -10,16 +10,18 @@ import { validateCreatePrivacyPolicy } from '../../../utils/joi/privacyPolicy';
 import slugify from '../../../utils/slugify';
 
 export default class CreatePolicyUseCase
-  implements IUseCase<[ICreatePolicyDTO], ReturnValue<PrivacyPolicy>> {
+  implements IUseCase<[ICreatePolicyDTO], ReturnValue<PrivacyPolicy>>
+{
   constructor(
     private readonly repo: IPrivacyPolicyRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
-  async execute(...[data]: [ICreatePolicyDTO]): Promise<ReturnValue<PrivacyPolicy>> {
-
+  async execute(
+    ...[data]: [ICreatePolicyDTO]
+  ): Promise<ReturnValue<PrivacyPolicy>> {
     const { messageBroker } = this.providers;
 
     // Validate input
@@ -29,8 +31,8 @@ export default class CreatePolicyUseCase
     const PrivacyPolicy = await this.repo.createPolicy({
       data: {
         ...data,
-        slug: slugify(data.title)
-      }
+        slug: slugify(data.title),
+      },
     });
 
     // Publish event

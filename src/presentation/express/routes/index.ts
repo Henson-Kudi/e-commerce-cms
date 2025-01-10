@@ -5,15 +5,14 @@ import bannerRoutes from './banner.routes';
 import faqRoutes from './faq.routes';
 import policyRoutes from './policy.routes';
 import termsRoutes from './terms.routes';
-import authenticateRequest from '../middlewares/authenticate';
 
 const router = Router();
 
 // Define your routes here
-router.use('/blogs', blogRoutes)
-router.use('/banners', bannerRoutes)
-router.use('/faq', faqRoutes)
-router.use('/privacy-policy', policyRoutes)
-router.use('/terms-and-conditions', termsRoutes)
+router.use('/blogs', blogRoutes);
+router.use('/banners', bannerRoutes);
+router.use('/faq', faqRoutes);
+router.use('/privacy-policy', policyRoutes);
+router.use('/terms-and-conditions', termsRoutes);
 
 export default router;

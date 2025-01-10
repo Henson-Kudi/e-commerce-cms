@@ -14,8 +14,8 @@ export function setupUniqueBlogQuery(data: IFindUniqueBlogDTO) {
 
 export function setupFindManyBlogsQuery(data: IFindBlogDTO) {
   const query: Prisma.BlogPostWhereInput = {
-    isActive: data.isActive !== false,
-    isDeleted: data.isDeleted === true,
+    // isActive: data.isActive !== false,
+    // isDeleted: data.isDeleted === true,
   };
 
   if (data.id) query.id = Array.isArray(data.id) ? { in: data.id } : data.id;
@@ -24,9 +24,22 @@ export function setupFindManyBlogsQuery(data: IFindBlogDTO) {
     query.slug = Array.isArray(data.slug) ? { in: data.slug } : data.slug;
 
   if (data.title) {
-    query.slug = Array.isArray(data.title)
-      ? { in: data.title.map((it) => slugify(it)) }
-      : slugify(data.title);
+    if (Array.isArray(data.title)) {
+      query.slug = { in: data.title.map((it) => slugify(it)) };
+    } else {
+      query.title = {
+        contains: data.title?.trim(),
+        mode: 'insensitive',
+      };
+    }
+  }
+
+  if (data.isActive != undefined) {
+    query.isActive = data.isActive === true;
+  }
+
+  if (data.isDeleted != undefined) {
+    query.isDeleted = data.isDeleted === true;
   }
 
   if (data.createdAt) {
@@ -74,7 +87,10 @@ export function setupFindManyBlogsQuery(data: IFindBlogDTO) {
     if (Object.keys(dateQ).length > 0) query.deletedAt = dateQ;
   }
 
-  if (data.createdBy) query.createdBy = Array.isArray(data.createdBy) ? { in: data.createdBy } : data.createdBy;
+  if (data.createdBy)
+    query.createdBy = Array.isArray(data.createdBy)
+      ? { in: data.createdBy }
+      : data.createdBy;
 
   return query;
 }

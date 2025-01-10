@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -24,6 +25,7 @@ model BlogPost{
   title String @unique()
   slug String @unique() // generated from the title. We do not want to have duplicated blog contents
   content String
+  delta String?
   createdBy String
   lastModifiedBy String?
   createdAt DateTime @default(now())
@@ -40,6 +42,7 @@ model BlogPost{
 model Banner{
   id String @id() @default(uuid())
   imageUrl String
+  fileType BannerFileType @default(IMAGE)
   webLink String // link to be used by web apps
   appLink String? // link to be used by mobile apps
   query Json? // query params for the link
@@ -70,6 +73,7 @@ model PrivacyPolicy{
   title String @unique()
   slug String @unique()
   content String
+  delta   String?
   metaTitle String?
   metaDescription String?
   metaTags String? // comma separated string
@@ -87,6 +91,7 @@ model TermsOfService{
   title String @unique()
   slug String @unique()
   content String
+  delta   String?
   metaTitle String?
   metaDescription String?
   metaTags String? // comma separated string
@@ -97,4 +102,9 @@ model TermsOfService{
   isActive Boolean @default(true)
   isDeleted Boolean @default(false)
   deletedAt DateTime?
+}
+
+enum BannerFileType {
+  VIDEO
+  IMAGE
 }

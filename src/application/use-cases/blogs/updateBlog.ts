@@ -13,21 +13,21 @@ import { validateUpdateBlog } from '../../../utils/joi/blog';
 
 export default class UpddateBlog
   implements
-  IUseCase<
-    [IFindUniqueBlogDTO, IUpdateBlogDTO],
-    ReturnValue<BlogPost | null>
-  > {
+    IUseCase<
+      [IFindUniqueBlogDTO, IUpdateBlogDTO],
+      ReturnValue<BlogPost | null>
+    >
+{
   constructor(
     private readonly repo: IBlogPostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[query, data]: [IFindUniqueBlogDTO, IUpdateBlogDTO]
   ): Promise<ReturnValue<BlogPost | null>> {
-
     // Validate input
     await validateUpdateBlog(data);
 

@@ -9,13 +9,14 @@ import IMessageBroker from '../../providers/messageBroker';
 import { blogPostsDeleted } from '../../../utils/kafkaTopics.json';
 
 export default class DeleteBlogs
-  implements IUseCase<[IFindBlogDTO], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[IFindBlogDTO], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: IBlogPostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[query]: [IFindBlogDTO]
@@ -25,7 +26,7 @@ export default class DeleteBlogs
     const Query = setupFindManyBlogsQuery(query);
 
     const deletedBlogs = await this.repository.deletePosts({
-      where: Query
+      where: Query,
     });
 
     try {

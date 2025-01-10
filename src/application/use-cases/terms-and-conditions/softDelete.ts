@@ -3,22 +3,22 @@ import IUseCase from '..';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { conditionSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { conditionDeleted } from '../../../utils/kafkaTopics.json';
 import ITermsOfServicePostRepository from '../../repositories/termsOfService';
 
 export default class SoftDeleteTermsOfService
-  implements IUseCase<[string], ReturnValue<TermsOfService | null>> {
+  implements IUseCase<[string], ReturnValue<TermsOfService | null>>
+{
   constructor(
     private readonly repository: ITermsOfServicePostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id]: [string]
   ): Promise<ReturnValue<TermsOfService | null>> {
-
     const { messageBoker } = this.providers;
 
     const deleted = await this.repository.updateTermsOfService({
@@ -31,7 +31,7 @@ export default class SoftDeleteTermsOfService
 
     try {
       messageBoker.publish({
-        topic: conditionSoftDeleted,
+        topic: conditionDeleted,
         message: JSON.stringify(deleted),
       });
     } catch (err) {

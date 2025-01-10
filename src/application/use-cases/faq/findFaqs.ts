@@ -8,16 +8,13 @@ import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class FindFaqs
   implements
-  IUseCase<
-    [IFindFaqDTO, IFindFaqOptions],
-    ReturnValueWithPagination<Faq[]>
-  > {
-  constructor(private readonly repository: IFaqPostRepository) { }
+    IUseCase<[IFindFaqDTO, IFindFaqOptions], ReturnValueWithPagination<Faq[]>>
+{
+  constructor(private readonly repository: IFaqPostRepository) {}
 
   async execute(
     ...[query, options]: [IFindFaqDTO, IFindFaqOptions]
   ): Promise<ReturnValueWithPagination<Faq[]>> {
-
     const Query = setupFindManyFaqsQuery(query);
     const pagination = setupPagination(options);
 

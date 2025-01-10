@@ -7,19 +7,19 @@ import { conditionDeleted } from '../../../utils/kafkaTopics.json';
 import ITermsOfServicePostRepository from '../../repositories/termsOfService';
 
 export default class DeleteTermsOfService
-  implements IUseCase<[string], ReturnValue<TermsOfService | null>> {
+  implements IUseCase<[string], ReturnValue<TermsOfService | null>>
+{
   constructor(
     private readonly repository: ITermsOfServicePostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id]: [string]
   ): Promise<ReturnValue<TermsOfService | null>> {
     const { messageBoker } = this.providers;
-
 
     const deleted = await this.repository.deleteTermsOfService({
       where: { id },

@@ -1,6 +1,8 @@
 import { TermsOfService, Prisma } from '@prisma/client';
 export default interface ITermsOfServicePostRepository {
-  createTermsOfService(data: Prisma.TermsOfServiceCreateArgs): Promise<TermsOfService>;
+  createTermsOfService(
+    data: Prisma.TermsOfServiceCreateArgs
+  ): Promise<TermsOfService>;
   getTermsOfServices(
     query: Prisma.TermsOfServiceFindManyArgs
   ): Promise<TermsOfService[]>;

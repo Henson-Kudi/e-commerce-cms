@@ -3,17 +3,18 @@ import IUseCase from '..';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { conditionsSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { conditionDeleted } from '../../../utils/kafkaTopics.json';
 import ITermsOfServicePostRepository from '../../repositories/termsOfService';
 
 export default class SoftDeleteManyTermsOfService
-  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: ITermsOfServicePostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[ids]: [string[]]
@@ -30,7 +31,7 @@ export default class SoftDeleteManyTermsOfService
 
     try {
       messageBoker.publish({
-        topic: conditionsSoftDeleted,
+        topic: conditionDeleted,
         message: JSON.stringify({
           ...deleted,
           query: { id: ids },

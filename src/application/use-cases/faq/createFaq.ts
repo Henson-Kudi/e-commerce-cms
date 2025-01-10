@@ -9,16 +9,16 @@ import IMessageBroker from '../../providers/messageBroker';
 import IFaqPostRepository from '../../repositories/faqRepository';
 
 export default class CreateFaqUseCase
-  implements IUseCase<[ICreateFaqDTO], ReturnValue<Faq>> {
+  implements IUseCase<[ICreateFaqDTO], ReturnValue<Faq>>
+{
   constructor(
     private readonly repo: IFaqPostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(...[data]: [ICreateFaqDTO]): Promise<ReturnValue<Faq>> {
-
     const { messageBroker } = this.providers;
 
     // Validate input
@@ -26,7 +26,7 @@ export default class CreateFaqUseCase
 
     // Create Faq
     const Faq = await this.repo.createFaq({
-      data
+      data,
     });
 
     // Publish event

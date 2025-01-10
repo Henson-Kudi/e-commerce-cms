@@ -7,13 +7,14 @@ import { bannersDeleted } from '../../../utils/kafkaTopics.json';
 import IBannerRepository from '../../repositories/bannersRepository';
 
 export default class DeleteBanners
-  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>> {
+  implements IUseCase<[string[]], ReturnValue<Prisma.BatchPayload>>
+{
   constructor(
     private readonly repository: IBannerRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[ids]: [string[]]
@@ -21,7 +22,7 @@ export default class DeleteBanners
     const { messageBoker } = this.providers;
 
     const deletedBanners = await this.repository.deleteBanners({
-      where: { id: { in: ids } }
+      where: { id: { in: ids } },
     });
 
     try {

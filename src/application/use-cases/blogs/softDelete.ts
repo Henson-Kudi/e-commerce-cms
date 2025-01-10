@@ -6,21 +6,21 @@ import { setupUniqueBlogQuery } from '../helpers/blogs';
 import IBlogPostRepository from '../../repositories/blogsRepository';
 import logger from '../../../utils/logger';
 import IMessageBroker from '../../providers/messageBroker';
-import { blogSoftDeleted } from '../../../utils/kafkaTopics.json';
+import { blogDeleted } from '../../../utils/kafkaTopics.json';
 
 export default class SoftDeleteBlog
-  implements IUseCase<[IFindUniqueBlogDTO], ReturnValue<BlogPost | null>> {
+  implements IUseCase<[IFindUniqueBlogDTO], ReturnValue<BlogPost | null>>
+{
   constructor(
     private readonly repository: IBlogPostRepository,
     private readonly providers: {
       messageBoker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[query]: [IFindUniqueBlogDTO]
   ): Promise<ReturnValue<BlogPost | null>> {
-
     const { messageBoker } = this.providers;
 
     const Query = setupUniqueBlogQuery(query);
@@ -35,7 +35,7 @@ export default class SoftDeleteBlog
 
     try {
       messageBoker.publish({
-        topic: blogSoftDeleted,
+        topic: blogDeleted,
         message: JSON.stringify(deletedBlog),
       });
     } catch (err) {

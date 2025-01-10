@@ -11,22 +11,18 @@ import IBannerRepository from '../../repositories/bannersRepository';
 import { validateUpdateBanner } from '../../../utils/joi/banner';
 
 export default class UpddateBanner
-  implements
-  IUseCase<
-    [string, IUpdateBannerDTO],
-    ReturnValue<Banner | null>
-  > {
+  implements IUseCase<[string, IUpdateBannerDTO], ReturnValue<Banner | null>>
+{
   constructor(
     private readonly repo: IBannerRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(
     ...[id, data]: [string, IUpdateBannerDTO]
   ): Promise<ReturnValue<Banner | null>> {
-
     // Validate input
     await validateUpdateBanner(data);
 
@@ -50,7 +46,10 @@ export default class UpddateBanner
         false,
         'Banner not found! Probably deleted.',
         null,
-        new AppError('Banner not found! Probably deleted.', ResponseCodes.NotFound)
+        new AppError(
+          'Banner not found! Probably deleted.',
+          ResponseCodes.NotFound
+        )
       );
     }
 

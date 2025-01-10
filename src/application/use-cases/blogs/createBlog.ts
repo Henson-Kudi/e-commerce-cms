@@ -10,16 +10,16 @@ import logger from '../../../utils/logger';
 import { ReturnValue } from '../../../domain/valueObjects/returnValue';
 
 export default class CreateBlogUseCase
-  implements IUseCase<[ICreateBlogDTO], ReturnValue<BlogPost>> {
+  implements IUseCase<[ICreateBlogDTO], ReturnValue<BlogPost>>
+{
   constructor(
     private readonly repo: IBlogPostRepository,
     private readonly providers: {
       messageBroker: IMessageBroker;
     }
-  ) { }
+  ) {}
 
   async execute(...[data]: [ICreateBlogDTO]): Promise<ReturnValue<BlogPost>> {
-
     const { messageBroker } = this.providers;
 
     // Validate input
